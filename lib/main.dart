@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     var dd = DatabaseHelper();
 
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Note Basket',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
