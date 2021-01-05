@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:weather/data/weather_repository.dart';
+import 'package:weather/locator.dart';
 import 'package:weather/models/weather.dart';
 import 'bloc.dart';
 
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
+
+  final WeatherRepository weatherRepository = locator<WeatherRepository>();
+
   @override
   WeatherState get initialState => InitialWeatherState();
 
@@ -16,8 +21,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       
       yield WeatherLoadingState();
       try {
-
-        yield WeatherLoadedState(weather: Weather());
+        WeatherRepository weatherRepository = WeatherRepository();
+        final Weather getirilenWeather = await weatherRepository.getWeather(event.sehirAdi);
+        yield WeatherLoadedState(weather: getirilenWeather);
       } catch(_){
         yield WeatherErrorState();
       }
