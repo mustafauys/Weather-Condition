@@ -43,37 +43,41 @@ class WeatherApp extends StatelessWidget {
             }
 
             if (state is WeatherLoadingState) {
-              return Center(child: CircularProgressIndicator(),);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
-            if(state is WeatherLoadedState) {
+            if (state is WeatherLoadedState) {
               final getirilenWeather = state.weather;
-              
+
               return ListView(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: LocationWidget(
-                    secilenSehir: kullanicininSectigiSehir,
-                  )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: SonGuncellemeWidget()),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: HavaDurumuResimWidget()),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(child: MaxveMinSicaklikWidget()),
-                ),
-              ],
-            );
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                        child: LocationWidget(
+                      secilenSehir: getirilenWeather.title,
+                    )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: SonGuncellemeWidget()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: HavaDurumuResimWidget()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(child: MaxveMinSicaklikWidget()),
+                  ),
+                ],
+              );
             }
             if (state is WeatherErrorState) {
-              return Center(child: Text("Hata Oluştu"),);
+              return Center(
+                child: Text("Hata Oluştu"),
+              );
             }
           },
         ),
