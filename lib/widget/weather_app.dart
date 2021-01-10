@@ -38,6 +38,7 @@ class WeatherApp extends StatelessWidget {
       body: Center(
         child: BlocBuilder(
           bloc: _weatherBloc,
+          // ignore: missing_return
           builder: (context, WeatherState state) {
             if (state is InitialWeatherState) {
               return Center(
