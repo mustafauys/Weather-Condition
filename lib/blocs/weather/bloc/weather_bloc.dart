@@ -33,6 +33,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       yield WeatherLoadingState();
       try {
         WeatherRepository weatherRepository = WeatherRepository();
+        // ignore: unused_local_variable
         final Weather getirilenWeather = await weatherRepository.getWeather(event.sehirAdi);
       } catch(_){
         yield currentState;
