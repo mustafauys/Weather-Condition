@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/blocs/Tema/bloc/bloc.dart';
 import 'package:weather/blocs/weather/bloc/bloc.dart';
 import 'package:weather/widget/sehir_sec.dart';
 
@@ -53,6 +54,12 @@ class WeatherApp extends StatelessWidget {
             }
             if (state is WeatherLoadedState) {
               final getirilenWeather = state.weather;
+              final _havaDurumuKisaltma =
+                  getirilenWeather.consolidatedWeather[0].weatherStateAbbr;
+
+              BlocProvider.of<TemaBloc>(context).dispatch(
+                  TemaDegistirEvent(havaDurumuKisaltmasi: _havaDurumuKisaltma));
+
               _refreshCompleter.complete();
               _refreshCompleter = Completer();
 
@@ -60,7 +67,7 @@ class WeatherApp extends StatelessWidget {
                 onRefresh: () {
                   _weatherBloc.dispatch(
                       RefreshWeatherEvent(sehirAdi: kullanicininSectigiSehir));
-                      return _refreshCompleter.future;
+                  return _refreshCompleter.future;
                 },
                 child: ListView(
                   children: <Widget>[
