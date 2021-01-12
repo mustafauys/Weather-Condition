@@ -31,7 +31,7 @@ class TemaBloc extends Bloc<TemaEvent, TemaState> {
           case "lr": // Hafif Yağmurlu
           case "s": // Sağanak Yağışlı
 
-          uygulamaTemasi = UygulamaTemasi(tema: ThemeData(primaryColor: Colors.brown), renk: Colors.indigo);
+          uygulamaTemasi = UygulamaTemasi(tema: ThemeData(primaryColor: Colors.indigoAccent), renk: Colors.indigo);
 
           break;
 
