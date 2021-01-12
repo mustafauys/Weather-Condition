@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/blocs/Tema/bloc/bloc.dart';
+import 'package:weather/blocs/Tema/bloc/tema_state.dart';
 import 'package:weather/blocs/weather/bloc/bloc.dart';
+import 'package:weather/widget/gecisli_arkaplan_renk.dart';
 import 'package:weather/widget/sehir_sec.dart';
 
 import 'hava_durumu_resim.dart';
@@ -56,41 +58,47 @@ class WeatherApp extends StatelessWidget {
               final getirilenWeather = state.weather;
               final _havaDurumuKisaltma =
                   getirilenWeather.consolidatedWeather[0].weatherStateAbbr;
-
+              kullanicininSectigiSehir = getirilenWeather.title;
               BlocProvider.of<TemaBloc>(context).dispatch(
                   TemaDegistirEvent(havaDurumuKisaltmasi: _havaDurumuKisaltma));
 
               _refreshCompleter.complete();
               _refreshCompleter = Completer();
 
-              return RefreshIndicator(
-                onRefresh: () {
-                  _weatherBloc.dispatch(
-                      RefreshWeatherEvent(sehirAdi: kullanicininSectigiSehir));
-                  return _refreshCompleter.future;
-                },
-                child: ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                          child: LocationWidget(
-                        secilenSehir: getirilenWeather.title,
-                      )),
+              return BlocBuilder(
+                bloc: BlocProvider.of<TemaBloc>(context),
+                builder: (context, TemaState temaState) => GecisliRenkContainer(
+                  renk: (temaState as UygulamaTemasi).renk,
+                  child: RefreshIndicator(
+                    onRefresh: () {
+                      _weatherBloc.dispatch(RefreshWeatherEvent(
+                          sehirAdi: kullanicininSectigiSehir));
+                      return _refreshCompleter.future;
+                    },
+                    child: ListView(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: LocationWidget(
+                            secilenSehir: getirilenWeather.title,
+                          )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: SonGuncellemeWidget()),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: HavaDurumuResimWidget()),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(child: MaxveMinSicaklikWidget()),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: SonGuncellemeWidget()),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: HavaDurumuResimWidget()),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(child: MaxveMinSicaklikWidget()),
-                    ),
-                  ],
+                  ),
                 ),
               );
             }
