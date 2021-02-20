@@ -1,2 +1,1 @@
-# Weather Application
 
